@@ -2,29 +2,14 @@ public class MinHeap {
 
     private BuildingStructure[] min_heap;
     private int size;
-    private int heapsize;
+    private int heap_size;
 
     //constructor -- Initializes the Min Heap
     public MinHeap() {
-        this.heapsize = 2000;
+        this.heap_size = 2000;
         this.size = 0;
-        min_heap = new BuildingStructure[this.heapsize + 1];
+        min_heap = new BuildingStructure[this.heap_size + 1];
         min_heap[0] = new BuildingStructure(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
-    }
-
-    //Returns the parent index
-    private int parent(int index) {
-        return (index / 2);
-    }
-
-    // Returns the left child index
-    private int lChild(int index) {
-        return (2 * index);
-    }
-
-   // Returns the right child index
-    private int rChild(int index) {
-        return ((2 * index) + 1);
     }
 
 
@@ -39,16 +24,16 @@ public class MinHeap {
     // Function to heapify at index
     private void minHeapify(int index) {
 
-        if (index <= size / 2) {
+        if (index <= size / 2 && index>=1) {
             int smallest = Integer.MIN_VALUE;
-            int l = lChild(index);
-            int r = rChild(index);
-            if (l <= heapsize && (min_heap[l].getExecuted_time() < min_heap[index].getExecuted_time())) {
+            int l = 2 * index;
+            int r = 2*index + 1;
+            if (l <= heap_size && (min_heap[2 * index].getExecuted_time() < min_heap[index].getExecuted_time())) {
                 smallest = l;
             } else {
                 smallest = index;
             }
-            if (r <= heapsize && (min_heap[r].getExecuted_time() < min_heap[smallest].getExecuted_time())) {
+            if (r <= heap_size && (min_heap[r].getExecuted_time() < min_heap[smallest].getExecuted_time())) {
                 smallest = r;
             }
             if (smallest != index) {
@@ -61,19 +46,16 @@ public class MinHeap {
     // insert an element in the heap
     public void insert(BuildingStructure var) {
 
-        if (size >= heapsize) {
+        if (size >= heap_size) {
             return;
         }
         size = size + 1;
         min_heap[size] = var;
         int index = size;
-        int l = lChild(index);
-        int r = rChild(index);
-        int p = parent(index);
-        while (min_heap[index].getExecuted_time() < min_heap[p].getExecuted_time()) {
 
-            exchangeElements(index, p);
-            index = index / 2;
+        while (min_heap[index].getExecuted_time() < min_heap[index/2].getExecuted_time()) {
+            exchangeElements(index, index/2);
+            index = index/2;
         }
     }
 
@@ -107,9 +89,9 @@ public class MinHeap {
 
         MinHeap minHeap = new MinHeap();
         BuildingStructure b1 = new BuildingStructure(50, 5, 10);
-        BuildingStructure b2 = new BuildingStructure(45, 0, 20);
-        BuildingStructure b3 = new BuildingStructure(15, 0, 20);
-        BuildingStructure b4 = new BuildingStructure(3, 0, 20);
+        BuildingStructure b2 = new BuildingStructure(45, 6, 20);
+        BuildingStructure b3 = new BuildingStructure(15, 2, 20);
+        BuildingStructure b4 = new BuildingStructure(3, 3, 20);
         BuildingStructure b5 = new BuildingStructure(19, 1, 20);
         BuildingStructure b6 = new BuildingStructure(4, 9, 20);
 
@@ -120,7 +102,9 @@ public class MinHeap {
         minHeap.insert(b4);
         minHeap.insert(b5);
         minHeap.insert(b6);
+        
         minHeap.print();
+        System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
         System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
         minHeap.print();
     }
