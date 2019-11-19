@@ -97,7 +97,7 @@ public class RedBlackTree {
         /*Check for duplicate Insert*/
         else if  ((searchNode(node, root))!=null){
 
-                System.out.println("duplicate");
+            System.out.println("duplicate");
         }
         else {
             node.setColor(RbtNode.Color.RED);
@@ -249,19 +249,19 @@ public class RedBlackTree {
             return null;
         }
         /* added by me */
-            if (node.getKey() == pivot.getKey()) {
-                return pivot;
+        if (node.getKey() == pivot.getKey()) {
+            return pivot;
+        }
+        else if (node.getKey() < pivot.getKey()) {
+            if (pivot.getLeft_child() != nil) {
+                return searchNode(node, pivot.getLeft_child());
             }
-            else if (node.getKey() < pivot.getKey()) {
-                if (pivot.getLeft_child() != nil) {
-                    return searchNode(node, pivot.getLeft_child());
-                }
-            } else if (node.getKey() > pivot.getKey()) {
-                if (pivot.getRight_child() != nil) {
-                    return searchNode(node, pivot.getRight_child());
-                }
+        } else if (node.getKey() > pivot.getKey()) {
+            if (pivot.getRight_child() != nil) {
+                return searchNode(node, pivot.getRight_child());
             }
-            return null;
+        }
+        return null;
     }
 
     private RbtNode getTreeMinimum(RbtNode sub_tree_node){
@@ -272,7 +272,7 @@ public class RedBlackTree {
     }
 
     public boolean delete(RbtNode delete_node){
-       /* changed */
+        /* changed */
         if((delete_node = searchNode(delete_node, root))==null)
             return false;
         else {
