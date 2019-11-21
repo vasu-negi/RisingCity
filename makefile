@@ -1,6 +1,6 @@
-default: Heap.java RedBlackTreeNode.java RedBlackTree.java Building.java Plan.java CityDevelopment.java risingCity.java
+default: BuildingStructure.java City.java MinHeap.java Plan.java RbtNode.java RedBlackTreeStructure.java risingCity.java
 
-	javac Heap.java RedBlackTreeNode.java RedBlackTree.java Building.java Plan.java CityDevelopment.java risingCity.java
+	javac BuildingStructure.java City.java MinHeap.java Plan.java RbtNode.java RedBlackTreeStructure.java risingCity.java
 
 
 clean:
