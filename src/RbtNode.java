@@ -16,7 +16,7 @@ public class RbtNode {
         this.left_child = null;
         this.right_child = null;
         this.parent = null;
-        this.color = Color.BLACK;
+        this.color = Color.RED;
     }
 
     public BuildingStructure getValue() {

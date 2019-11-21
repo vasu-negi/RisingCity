@@ -7,7 +7,9 @@ class RedBlackTreeStructure{
     public int comparator(int key1, int key2){
         return key1 - key2;
     }
-
+    public RbtNode getroot(){
+        return head;
+    }
     public void printLevelOrder(RbtNode root) {
        //Sentinel Case
         if (root == null)
@@ -50,7 +52,6 @@ class RedBlackTreeStructure{
         RbtNode node = new RbtNode(key,value);
         if(head == null) {
             node.setColor(RbtNode.Color.BLACK);
-
             head = node;
         } else {
             RbtNode current = head;
@@ -392,26 +393,16 @@ class RedBlackTreeStructure{
         BuildingStructure b4 = new BuildingStructure(3, 0, 20);
         BuildingStructure b5 = new BuildingStructure(19, 1, 20);
         BuildingStructure b6 = new BuildingStructure(4, 9, 20);
-        RedBlackTree rbt = new RedBlackTree();
-        RbtNode rb1 = new RbtNode(b1.getBuildingNum(), b1);
-        RbtNode rb2 = new RbtNode(b2.getBuildingNum(), b2);
-        RbtNode rb3 = new RbtNode(b3.getBuildingNum(), b3);
-        RbtNode rb4 = new RbtNode(b4.getBuildingNum(), b4);
-        RbtNode rb5 = new RbtNode(b5.getBuildingNum(), b5);
-        RbtNode rb6 = new RbtNode(b6.getBuildingNum(), b6);
-        rbt.insert(rb1);
-        rbt.insert(rb2);
-        rbt.insert(rb3);
-        rbt.insert(rb4);
-        rbt.insert(rb5);
-        rbt.insert(rb6);
+        RedBlackTreeStructure rbt = new RedBlackTreeStructure();
 
+        rbt.addElement(b1.getBuildingNum(), b1);
+        rbt.addElement(b2.getBuildingNum(), b2);
+        rbt.addElement(b3.getBuildingNum(), b3);
+        rbt.addElement(b4.getBuildingNum(), b4);
+        rbt.addElement(b5.getBuildingNum(), b5);
+        rbt.addElement(b6.getBuildingNum(), b6);
+        rbt.printInOrder();
 
-        rbt.printLevelOrder(rbt.getRoot());
-        rbt.delete(rb2);
-        rbt.delete(rb3);
-        rbt.delete(rb1);
-        rbt.delete(rb5);
 
     }
 }
