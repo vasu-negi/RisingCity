@@ -1,7 +1,7 @@
 public class MinHeap {
 
     private BuildingStructure[] min_heap;
-    private int size;
+    public int size;
     private int heap_size;
 
     //constructor -- Initializes the Min Heap
@@ -20,9 +20,19 @@ public class MinHeap {
         min_heap[current_node] = min_heap[parent_node];
         min_heap[parent_node] = temp;
     }
+    private boolean compareEle(int index1, int index2){
+        if(min_heap[index1].getExecuted_time() < min_heap[index2].getExecuted_time() ||
+                (min_heap[index1].getExecuted_time() == min_heap[index2].getExecuted_time() &&
+                        min_heap[index1].getBuildingNum() < min_heap[index2].getBuildingNum())){
+            return true;//index1 is less than index2
+        }
+        else{
+            return false;//index2 is less than index1
+        }
 
+    }
     // Function to heapify at index
-    private void minHeapify(int index) {
+ /*   private void minHeapify(int index) {
 
         if (index <= size / 2 && index>=1) {
             int smallest = Integer.MIN_VALUE;
@@ -41,8 +51,27 @@ public class MinHeap {
                 minHeapify(smallest);
             }
         }
-    }
+    }*/
+    private void minHeapify(int index) {
 
+        if (index <= size / 2 && index>=1) {
+            int smallest = Integer.MIN_VALUE;
+            int l = 2 * index;
+            int r = 2*index + 1;
+            if (l <= heap_size && compareEle(l, index)) {
+                smallest = l;
+            } else {
+                smallest = index;
+            }
+            if (r <= heap_size && compareEle(r,smallest)) {
+                smallest = r;
+            }
+            if (smallest != index) {
+                exchangeElements(index, smallest);
+                minHeapify(smallest);
+            }
+        }
+    }
     // insert an element in the heap
     public void insert(BuildingStructure var) {
 
@@ -53,7 +82,10 @@ public class MinHeap {
         min_heap[size] = var;
         int index = size;
 
-        while (min_heap[index].getExecuted_time() < min_heap[index/2].getExecuted_time()) {
+        while (min_heap[index].getExecuted_time() < min_heap[index/2].getExecuted_time() ||
+                (min_heap[index/2].getExecuted_time() == min_heap[index].getExecuted_time() &&
+                        min_heap[index].getBuildingNum() < min_heap[index/2].getBuildingNum())) {
+
             exchangeElements(index, index/2);
             index = index/2;
         }
@@ -77,19 +109,35 @@ public class MinHeap {
 
     // Function to remove minimum element
     public BuildingStructure removeMin() {
-        BuildingStructure mini = min_heap[1];
-        min_heap[1] = min_heap[size];
-        size-=1;
-        minHeapify(1);
-        return mini;
+        if (size>1) {
+            BuildingStructure mini = min_heap[1];
+            min_heap[1] = min_heap[size];
+            size -= 1;
+            minHeapify(1);
+            return mini;
+        }
+        else if (size == 1){
+            BuildingStructure mini = min_heap[1];
+            size -= 1;
+            return mini;
+        }
+        else{
+            return null;
+        }
     }
-
+public boolean isComplete(){
+        if(size <= 1){
+            return true;
+        }
+        else
+            return false;
+}
 
     public static void main(String[] arg) {
 
         MinHeap minHeap = new MinHeap();
-        BuildingStructure b1 = new BuildingStructure(50, 5, 10);
-        BuildingStructure b2 = new BuildingStructure(45, 6, 20);
+        BuildingStructure b1 = new BuildingStructure(50, 1, 10);
+        BuildingStructure b2 = new BuildingStructure(45, 2, 20);
         BuildingStructure b3 = new BuildingStructure(15, 2, 20);
         BuildingStructure b4 = new BuildingStructure(3, 3, 20);
         BuildingStructure b5 = new BuildingStructure(19, 1, 20);
@@ -102,8 +150,13 @@ public class MinHeap {
         minHeap.insert(b4);
         minHeap.insert(b5);
         minHeap.insert(b6);
-        
+
+
+        System.out.println("size "+minHeap.size);
         minHeap.print();
+        System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
+        System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
+        System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
         System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
         System.out.println("The Min val is " + minHeap.removeMin().printBuilding());
         minHeap.print();

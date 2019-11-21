@@ -5,11 +5,12 @@ public class RedBlackTree {
     private RbtNode root;
     //Empty black node
 
-    BuildingStructure b0 = new BuildingStructure(-1, -1, -1);
-    private final RbtNode nil = new RbtNode(-1, b0);
+BuildingStructure b0 = new BuildingStructure(-1, -1, -1);
+//    private final RbtNode nil = new RbtNode(-1, b0);
 
     public RedBlackTree() {
-        this.root = nil;
+        //BuildingStructure b0 = new BuildingStructure(-1, -1, -1);
+        this.root = new RbtNode(-1, b0);
     }
 
     public RbtNode getRoot() {
@@ -21,7 +22,7 @@ public class RedBlackTree {
     }
 
     public void printTree(RbtNode node) {
-        if (node == nil) {
+        if (node.getKey() == -1) {
             return;
         }
         printTree(node.getLeft_child());
@@ -29,17 +30,18 @@ public class RedBlackTree {
         printTree(node.getRight_child());
     }
 
+
     private void rotateLeft(RbtNode node) {
-        if (node.getParent() != nil) {
+        if (node.getParent().getKey() != -1) {
             if (node == node.getParent().getLeft_child()) {
                 node.getParent().setLeft_child(node.getRight_child());
             } else {
                 node.getParent().setRight_child(node.getRight_child());
-                ;
+
             }
             node.getRight_child().setParent(node.getParent());
             node.setParent(node.getRight_child());
-            if (node.getRight_child().getLeft_child() != nil) {
+            if (node.getRight_child().getLeft_child().getKey() != -1) {
                 node.getRight_child().getLeft_child().setParent(node);
             }
             node.setRight_child(node.getRight_child().getLeft_child());
@@ -50,13 +52,13 @@ public class RedBlackTree {
             right.getLeft_child().setParent(root);
             root.setParent(right);
             right.setLeft_child(root);
-            right.setParent(nil);
+            right.setParent(new RbtNode(-1,b0));
             root = right;
         }
     }
 
     private void rotateRight(RbtNode node) {
-        if (node.getParent() != nil) {
+        if (node.getParent().getKey() != -1) {
             if (node == node.getParent().getLeft_child()) {
                 node.getParent().setLeft_child(node.getRight_child());
             } else {
@@ -65,7 +67,7 @@ public class RedBlackTree {
 
             node.getLeft_child().setParent(node.getParent());
             node.setParent(node.getLeft_child());
-            if (node.getLeft_child().getRight_child() != nil) {
+            if (node.getLeft_child().getRight_child().getKey() != -1) {
                 node.getLeft_child().getRight_child().setParent(node);
             }
             node.setLeft_child(node.getLeft_child().getRight_child());
@@ -73,25 +75,29 @@ public class RedBlackTree {
         } else {//Need to rotate root
             RbtNode left = root.getLeft_child();
             root.setLeft_child(root.getLeft_child().getRight_child());
-            System.out.println(left.getRight_child());
+            //System.out.println(left.getRight_child());
             left.getRight_child().setParent(root);
             root.setParent(left);
             left.setRight_child(root);
-            left.setParent(nil);
+            left.setParent(new RbtNode(-1,b0));
             root = left;
         }
     }
     /*-------------------------------------------------------------------------------------------------------------------------------------*/
 
-    private void insert(RbtNode node) {
+    public void insert(RbtNode node) {
         //System.out.println("\n");
         RbtNode temp_node = root;
 
-        if (root == nil) {
+        if (root.getKey() == -1) {
             node.setColor(RbtNode.Color.BLACK);
-            node.setLeft_child(nil);
-            node.setRight_child(nil);
-            node.setParent(nil);
+            RbtNode left = new RbtNode(-1,b0);
+            RbtNode right = new RbtNode(-1,b0);
+            left.setParent(node);
+            right.setParent(node);
+            node.setLeft_child(left);
+            node.setRight_child(right);
+            node.setParent(new RbtNode(-1,b0));
             root = node;
         }
         /*Check for duplicate Insert*/
@@ -105,37 +111,41 @@ public class RedBlackTree {
 
                 if (node.getKey() < temp_node.getKey()) {
 
-                    if (temp_node.getLeft_child() == nil) {
+                    if (temp_node.getLeft_child().getKey() != -1) {
+                        //System.out.println("left"+temp_node.getKey());
+                        temp_node = temp_node.getLeft_child();
+                    }
+                    else {
                         //System.out.println("left"+temp_node.getKey());
                         temp_node.setLeft_child(node);
                         node.setParent(temp_node);
-                        node.setLeft_child(nil);
-                        node.setRight_child(nil);
+                        RbtNode left = new RbtNode(-1,b0);
+                        RbtNode right = new RbtNode(-1,b0);
+                        left.setParent(node);
+                        right.setParent(node);
+                        node.setLeft_child(left);
+                        node.setRight_child(right);
                         //System.out.println("insert"+node.getKey());
                         break;
                     }
-
-
-                    else {
-                        //System.out.println("left"+temp_node.getKey());
-                        temp_node = temp_node.getLeft_child();
-
-                    }
-
-
                 } else if (node.getKey() >= temp_node.getKey()) {
 
-                    if (temp_node.getRight_child() == nil) {
+                    if (temp_node.getRight_child().getKey() != -1) {
+                        //System.out.println("right"+temp_node.getKey());
+                        temp_node = temp_node.getRight_child();
+
+                    } else {
                         //System.out.println("right"+temp_node.getKey());
                         temp_node.setRight_child(node);
                         node.setParent(temp_node);
-                        node.setRight_child(nil);
-                        node.setLeft_child(nil);
+                        RbtNode left = new RbtNode(-1,b0);
+                        RbtNode right = new RbtNode(-1,b0);
+                        left.setParent(node);
+                        right.setParent(node);
+                        node.setLeft_child(left);
+                        node.setRight_child(right);
                         //System.out.println("insert"+node.getKey());
                         break;
-                    } else {
-                        //System.out.println("right"+temp_node.getKey());
-                        temp_node = temp_node.getRight_child();
                     }
 
 
@@ -148,16 +158,13 @@ public class RedBlackTree {
 
     public void printLevelOrder(RbtNode root) {
         // Base Case
-        if (root == nil)
+        if (root.getKey() == -1)
             return;
 
-        // Create an empty queue for level order tarversal
+        // Create an empty queue for level order traversal
         Queue<RbtNode> q = new LinkedList<RbtNode>();
-
         // Enqueue Root and initialize height
         q.add(root);
-
-
         while (true) {
 
             // nodeCount (queue size) indicates number of nodes
@@ -170,11 +177,11 @@ public class RedBlackTree {
             // nodes of next level
             while (nodeCount > 0) {
                 RbtNode node = q.peek();
-                System.out.print(node.getKey() + " " + node.getColor() + " ");
+                System.out.print(node.getValue().printBuilding() + " " + node.getColor() + " ");
                 q.remove();
-                if (node.getLeft_child() != nil)
+                if (node.getLeft_child().getKey() != -1)
                     q.add(node.getLeft_child());
-                if (node.getRight_child() != nil)
+                if (node.getRight_child().getKey() != -1)
                     q.add(node.getRight_child());
                 nodeCount--;
             }
@@ -184,11 +191,11 @@ public class RedBlackTree {
 
     private void fixTree(RbtNode node) {
         while (node.getParent().getColor() == RbtNode.Color.RED) {
-            RbtNode aunt = nil;
+            RbtNode aunt = new RbtNode(-1,b0);
             if (node.getParent() == node.getParent().getParent().getLeft_child()) {
                 aunt = node.getParent().getParent().getRight_child();
 
-                if (aunt != nil && aunt.getColor() == RbtNode.Color.RED) {
+                if (aunt.getKey() != -1 && aunt.getColor() == RbtNode.Color.RED) {
                     node.getParent().setColor(RbtNode.Color.BLACK);
                     aunt.setColor(RbtNode.Color.BLACK);
                     node.getParent().getParent().setColor(RbtNode.Color.RED);
@@ -207,7 +214,7 @@ public class RedBlackTree {
                 rotateRight(node.getParent().getParent());
             } else {
                 aunt = node.getParent().getParent().getLeft_child();
-                if (aunt != nil && aunt.getColor() == RbtNode.Color.RED) {
+                if (aunt.getKey() != -1 && aunt.getColor() == RbtNode.Color.RED) {
                     node.getParent().setColor(RbtNode.Color.BLACK);
                     aunt.setColor(RbtNode.Color.BLACK);
                     node.getParent().getParent().setColor(RbtNode.Color.RED);
@@ -233,7 +240,7 @@ public class RedBlackTree {
     /* --------------------------------------------------------------------------------------------------*/
     private void nodeTransplant(RbtNode node1, RbtNode node2){
 
-        if(node1.getParent() == nil){
+        if(node1.getParent().getKey() == -1){
             root = node2;
         }else if(node1 == node1.getParent().getLeft_child()){
             node1.getParent().setLeft_child(node2);
@@ -245,7 +252,7 @@ public class RedBlackTree {
     }
 
     private RbtNode searchNode(RbtNode node, RbtNode pivot) {
-        if (root == nil) {
+        if (pivot.getKey() == -1) {
             return null;
         }
         /* added by me */
@@ -253,11 +260,11 @@ public class RedBlackTree {
             return pivot;
         }
         else if (node.getKey() < pivot.getKey()) {
-            if (pivot.getLeft_child() != nil) {
+            if (pivot.getLeft_child().getKey() != -1) {
                 return searchNode(node, pivot.getLeft_child());
             }
         } else if (node.getKey() > pivot.getKey()) {
-            if (pivot.getRight_child() != nil) {
+            if (pivot.getRight_child().getKey() != -1) {
                 return searchNode(node, pivot.getRight_child());
             }
         }
@@ -265,7 +272,7 @@ public class RedBlackTree {
     }
 
     private RbtNode getTreeMinimum(RbtNode sub_tree_node){
-        while(sub_tree_node.getLeft_child()!=nil){
+        while(sub_tree_node.getLeft_child().getKey()!=-1){
             sub_tree_node = sub_tree_node.getLeft_child();
         }
         return sub_tree_node;
@@ -273,19 +280,22 @@ public class RedBlackTree {
 
     public boolean delete(RbtNode delete_node){
         /* changed */
-        if((delete_node = searchNode(delete_node, root))==null)
+        if((delete_node = searchNode(delete_node, root))==null) {
             return false;
-        else {
+         /*   System.out.println(delete_node.getKey());
+            System.out.println("Node does not exist:");*/
+        }
+
             RbtNode d1;
             RbtNode d2 = delete_node;
             RbtNode.Color y_original_color = d2.getColor();
 
-            if (delete_node.getLeft_child() == nil) {
+            if (delete_node.getLeft_child().getKey() == -1) {
                 d1 = delete_node.getRight_child();
                 nodeTransplant(delete_node, delete_node.getRight_child());
 
 
-            } else if (delete_node.getRight_child() == nil) {
+            } else if (delete_node.getRight_child().getKey() == -1) {
                 d1 = delete_node.getLeft_child();
                 nodeTransplant(delete_node, delete_node.getLeft_child());
             }
@@ -309,7 +319,7 @@ public class RedBlackTree {
             if (y_original_color == RbtNode.Color.BLACK)
                 deleteFixUp(d1);
             return true;
-        }
+
     }
 
 
@@ -348,36 +358,81 @@ public class RedBlackTree {
                     x = root;
                 }
             }else{
-                RbtNode w = x.getParent().getLeft_child();
-                if(w.getColor() == RbtNode.Color.RED){
-                    w.setColor(RbtNode.Color.BLACK);
-                    x.getParent().setColor(RbtNode.Color.RED);
-                    rotateRight(x.getParent());
-                    w = x.getParent().getLeft_child();
-                }
-                if(w.getRight_child().getColor() == RbtNode.Color.BLACK && w.getLeft_child().getColor() == RbtNode.Color.BLACK){
-                    w.setColor(RbtNode.Color.RED);
-                    x = x.getParent();
-                    continue;
-                }
-                else if(w.getLeft_child().getColor() == RbtNode.Color.BLACK){
-                    w.getRight_child().setColor(RbtNode.Color.BLACK);
-                    w.setColor(RbtNode.Color.RED);
-                    rotateLeft(w);
-                    w = x.getParent().getLeft_child();
-                }
-                if(w.getLeft_child().getColor() == RbtNode.Color.RED){
-                    w.setColor(x.getParent().getColor());
-                    x.getParent().setColor(RbtNode.Color.BLACK);
-                    w.getLeft_child().setColor(RbtNode.Color.BLACK);
-                    rotateRight(x.getParent());
-                    x = root;
-                }
+
+                    RbtNode w = x.getParent().getLeft_child();
+                    //System.out.println("hello"+w.getRight_child().getColor());
+                    if (w.getColor() == RbtNode.Color.RED) {
+                        w.setColor(RbtNode.Color.BLACK);
+                        x.getParent().setColor(RbtNode.Color.RED);
+                        rotateRight(x.getParent());
+                        w = x.getParent().getLeft_child();
+
+                    }
+                    //System.out.println(x.getKey());
+                    if (w.getRight_child().getColor() == RbtNode.Color.BLACK && w.getLeft_child().getColor() == RbtNode.Color.BLACK) {
+                        w.setColor(RbtNode.Color.RED);
+                        x = x.getParent();
+                        continue;
+                    } else if (w.getLeft_child().getColor() == RbtNode.Color.BLACK) {
+                        w.getRight_child().setColor(RbtNode.Color.BLACK);
+                        w.setColor(RbtNode.Color.RED);
+                        rotateLeft(w);
+                        w = x.getParent().getLeft_child();
+                    }
+                    if (w.getLeft_child().getColor() == RbtNode.Color.RED) {
+                        w.setColor(x.getParent().getColor());
+                        x.getParent().setColor(RbtNode.Color.BLACK);
+                        w.getLeft_child().setColor(RbtNode.Color.BLACK);
+                        rotateRight(x.getParent());
+                        x = root;
+                    }
+
             }
         }
         x.setColor(RbtNode.Color.BLACK);
     }
+    public void printNode(int buildingNum){
+        BuildingStructure temp = new BuildingStructure(buildingNum,Integer.MAX_VALUE,Integer.MAX_VALUE);
+        RbtNode rb_temp = new RbtNode(buildingNum,temp);
+        RbtNode search_output = searchNode(rb_temp,root);
+        if (search_output!=null){
+            System.out.println("(" +search_output.getValue().getBuildingNum() + "," + search_output.getValue().getExecuted_time()+","+ search_output.getValue().getTotal_time()+")");
+        }
+        else{
+            System.out.println("Building does not exist");
+        }
 
+    }
+
+    public void printRange(RbtNode node, int buildingNum1, int buildingNum2){
+        if (node.getKey() == -1){
+            return;
+        }
+        if(buildingNum1<node.getKey()){
+            printRange(node.getLeft_child(),buildingNum1,buildingNum2);
+        }
+        if(buildingNum1<=node.getKey()&& buildingNum2>=node.getKey()){
+            System.out.print("(" +node.getValue().getBuildingNum() + "," + node.getValue().getExecuted_time()+","+ node.getValue().getTotal_time()+"),");
+        }
+        if(buildingNum2>node.getKey()){
+            printRange(node.getRight_child(),buildingNum1,buildingNum2);
+        }
+    }
+
+    public boolean isComplete(){
+        if(root.getKey() == -1){
+            return true;
+        }
+        else
+            return false;
+    }
+    public void printDriver(){
+        printLevelOrder(root);
+    }
+    public void printRangeDriver(int buildingNum1, int buildingNum2){
+        printRange(root,buildingNum1,buildingNum2);
+        System.out.println();
+    }
     /* --------------------------------------------------------------------------------------------------*/
     public static void main(String[] arg) {
         BuildingStructure b1 = new BuildingStructure(50, 5, 10);
@@ -399,18 +454,28 @@ public class RedBlackTree {
         rbt.insert(rb4);
         rbt.insert(rb5);
         rbt.insert(rb6);
+        rbt.delete(rb2);
+        rbt.delete(rb3);
+        rbt.delete(rb5);
+        rbt.delete(rb6);
+        rbt.delete(rb1);
+        rbt.delete(rb4);
         rbt.printLevelOrder(rbt.getRoot());
         rbt.delete(rb2);
         rbt.delete(rb3);
         rbt.delete(rb1);
         rbt.delete(rb5);
-        rbt.insert(rb6);
+        /*rbt.insert(rb6);
         rbt.insert(rb5);
-        rbt.insert(rb1);
+        rbt.insert(rb1);*/
+        //rbt.delete(rb4);
+        //System.out.println(rbt.isComplete());
+       // rbt.delete(rb6);
+        //System.out.println(rbt.isComplete());
 
-        rbt.printLevelOrder(rbt.getRoot());
-
-
+        //rbt.printLevelOrder(rbt.getRoot());
+        //rbt.printNode(4);
+        //rbt.printRangeDriver(20,50);
     }
 }
 
