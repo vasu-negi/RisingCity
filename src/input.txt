@@ -1,8 +1,0 @@
-0: Insert(5,25)
-2: Insert(9,30)
-7: Insert(30,3)
-9: Print (30)
-10: Insert(1345,12)
-13: Print (10,100)
-14: Insert(345,14)
-39: Insert(4455,14)
