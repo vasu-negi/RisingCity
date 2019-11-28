@@ -1,8 +1,10 @@
+/*Contains the attributes and constructors to create a node of a Red Black Tree to store building data sorted by buildingNum.*/
 public class RbtNode {
-    enum Color
-    {
+    enum Color {
         RED, BLACK;
     }
+
+    /*Instance Variables*/
     private int key;
     private BuildingStructure value;
     private RbtNode left_child;
@@ -10,6 +12,7 @@ public class RbtNode {
     private RbtNode parent;
     private Color color;
 
+    /*Constructor*/
     public RbtNode(int key, BuildingStructure value) {
         this.key = key;
         this.value = value;
@@ -18,6 +21,7 @@ public class RbtNode {
         this.parent = null;
         this.color = Color.RED;
     }
+    /*Setters and Getters*/
 
     public BuildingStructure getValue() {
         return value;
