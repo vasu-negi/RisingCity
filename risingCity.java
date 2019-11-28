@@ -11,7 +11,6 @@ public class risingCity {
 
     public static void main(String[] args) throws IOException {
 
-
         String file = args[0];
         BufferedReader br = new BufferedReader(new FileReader(file));
         int time;
@@ -19,9 +18,9 @@ public class risingCity {
         int building_number2 = Integer.MIN_VALUE;
         int total_time;
         String st;
-        PrintStream o = new PrintStream(new File("output_file.txt"));
+        PrintStream a = new PrintStream(new File("output_file.txt"));
         PrintStream console = System.out;
-        System.setOut(o);
+        System.setOut(a);
         LinkedList<PlanStructure> planStructures = new LinkedList<PlanStructure>();
 
         int index = 0;

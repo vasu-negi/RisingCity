@@ -19,7 +19,11 @@ public class City {
         this.current_building_executed_time = 0;
         this.current_building = null;
     }
-
+/* ********************************************************************
+    Returns True if executed time is equal to the total time of the building
+    Parameters: BuildingStructure b
+    Returns: boolean
+* *********************************************************************/
     private boolean isComplete(BuildingStructure b) {
         if (b.getExecuted_time() == b.getTotal_time()) {
             return true;
@@ -67,7 +71,11 @@ public class City {
     public void setGlobal_counter(int global_counter) {
         this.global_counter = global_counter;
     }
-
+/* *************************************************************************************************
+Inserts the data into the min-heap and red black tree if the instruction at the first/head node in the instruction linked list is INSERT
+Parameters: none
+Return: void
+* **************************************************************************************************/
     public void insertData() {
         if (object_list.size() > 0) {
             if (object_list.peekFirst().getGlobal_time() == global_counter) {
@@ -82,7 +90,11 @@ public class City {
             }
         }
     }
-
+/* **********************************************************************************************************
+Print the data if the instruction at the first/head node in the instruction linked list is PRINT/ PRINT_RANGE
+Parameter: none
+Return: void
+* ************************************************************************************************************/
 
     public void printData() {
         if (object_list.size() > 0) {
@@ -117,6 +129,18 @@ public class City {
             }
         }
     }
+/* **********************************************************************************************************
+This method implements the main logic of the system
+At the start of the day we are incrementing the global counter by 1
+THen, we are Inserting the data, if there is any on the day
+After that we are printing the data, if there is any print  instruction on that day
+Then, we check if the building being constructed is completed,
+if it is then we remove the building from the Red Black Tree
+if the building is not completed then we insert the building in the Min-Heap
+If the building is not completed  but the execution has been going for 5 days,
+then we insert the element in the min-heap
+
+* ***********************************************************************************************************/
 
     public void taskExecutor() {
         global_counter += 1;
@@ -145,7 +169,9 @@ public class City {
             current_building.setExecuted_time(current_building.getExecuted_time() + 1);
         }
     }
-
+/* ***************************************************************************************************************
+This method returns True, if minheap, red black tree, and the instruction list is empty and the current_building is null
+******************************************************************************************************************** */
     public boolean isComplete() {
 
         if (min_heap.isComplete() && red_black.root == null && object_list.size() == 0 && current_building == null) {
